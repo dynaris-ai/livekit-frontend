@@ -6,6 +6,7 @@ import { SessionInfo } from './SessionInfo';
 import { AudioControls } from './AudioControls';
 import { SessionsList } from './SessionsList';
 import { BackendStatus } from './BackendStatus';
+import Link from 'next/link';
 
 export const VoiceAgentDemo = () => {
   const [participantName, setParticipantName] = useState('Demo User');
@@ -122,6 +123,14 @@ export const VoiceAgentDemo = () => {
                 <h1 className="text-3xl font-bold text-gray-800 mb-4">
                   🎤 LiveKit Voice Agent Demo
                 </h1>
+                <div className="flex justify-center">
+                  <Link
+                    href="/config"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-800 hover:bg-gray-50"
+                  >
+                    Configure Agent
+                  </Link>
+                </div>
                 <BackendStatus serverUrl={serverUrl} />
               </div>
 

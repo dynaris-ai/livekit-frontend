@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { Room, RoomEvent, Track } from 'livekit-client';
+import Link from 'next/link';
 
 export default function Home() {
   const [participantName, setParticipantName] = useState('Demo User');
@@ -287,6 +288,14 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+        <div className="flex justify-end mb-4">
+          <Link
+            href="/config"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700"
+          >
+            Configure Agent
+          </Link>
+        </div>
         <h1 className="text-2xl font-bold text-center mb-8">
           🎤 LiveKit Voice Agent
         </h1>
