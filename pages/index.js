@@ -3,7 +3,7 @@ import { Room, RoomEvent, Track } from 'livekit-client';
 import Link from 'next/link';
 
 export default function Home() {
-  const [participantName, setParticipantName] = useState('Demo User');
+  const [participantName, setParticipantName] = useState('jareer');
   const [sessionDuration, setSessionDuration] = useState(30);
   const [session, setSession] = useState(null);
   const [room, setRoom] = useState(null);
@@ -20,18 +20,25 @@ export default function Home() {
 
   const BASE_URL = 'http://localhost:8000';
 
+  const USER_ID = 'QE95OWD7ICDWGqFm4STJuv1qgTfWRtP7';
+  const AGENT_ID = '5edd2707-f8bf-4aea-b092-70c8825102a2';
+
   const createSession = async () => {
     setLoading(true);
     setStatus('Creating session...');
     
     try {
-      const response = await fetch(`${BASE_URL}/api/sessions/create`, {
+      const params = new URLSearchParams({
+        user_id: USER_ID,
+        agent_id: AGENT_ID,
+        participant_name: participantName,
+        session_duration_minutes: String(sessionDuration),
+      });
+      // Use relative URL so request goes through Next.js (avoids CORS)
+      const response = await fetch(`/api/sessions/create?${params.toString()}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          participant_name: participantName,
-          session_duration_minutes: sessionDuration
-        })
+        body: JSON.stringify({})
       });
 
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -263,8 +270,9 @@ export default function Home() {
       });
       setAudioElements([]);
 
-      const response = await fetch(`${BASE_URL}/api/sessions/${session.session_id}`, {
-        method: 'DELETE'
+      const response = await fetch(`/api/sessions/${session.session_id}/close`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
       });
 
       if (response.ok) {

@@ -6,14 +6,16 @@ export const useSession = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const createSession = useCallback(async (participantName, sessionDurationMinutes = 30) => {
+  const createSession = useCallback(async (participantName, sessionDurationMinutes = 30, userId, agentId) => {
     setLoading(true);
     setError(null);
 
     try {
       const sessionData = await apiClient.createSession({
         participant_name: participantName,
-        session_duration_minutes: sessionDurationMinutes
+        session_duration_minutes: sessionDurationMinutes,
+        ...(userId != null && { user_id: userId }),
+        ...(agentId != null && { agent_id: agentId }),
       });
       
       setSession(sessionData);

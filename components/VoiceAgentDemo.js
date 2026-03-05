@@ -9,7 +9,7 @@ import { BackendStatus } from './BackendStatus';
 import Link from 'next/link';
 
 export const VoiceAgentDemo = () => {
-  const [participantName, setParticipantName] = useState('Demo User');
+  const [participantName, setParticipantName] = useState('jareer');
   const [sessionDuration, setSessionDuration] = useState(30);
   const [serverUrl, setServerUrl] = useState('http://localhost:8000');
   const [status, setStatus] = useState({ message: 'Ready to create a voice agent session', type: 'info' });
