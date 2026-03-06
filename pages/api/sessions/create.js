@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { user_id, agent_id, participant_name, session_duration_minutes } = req.query;
+  const { user_id, agent_id, participant_name, session_duration_minutes, agent_name } = req.query;
 
   if (!user_id || !agent_id) {
     return res.status(400).json({ error: 'Missing user_id or agent_id' });
@@ -23,6 +23,9 @@ export default async function handler(req, res) {
     participant_name: participant_name || 'jareer',
     session_duration_minutes: session_duration_minutes || '30',
   });
+  if (agent_name && String(agent_name).trim()) {
+    params.set('agent_name', String(agent_name).trim());
+  }
 
   try {
     const backendRes = await fetch(`${BACKEND_URL}/api/sessions/create?${params.toString()}`, {

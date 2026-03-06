@@ -5,6 +5,7 @@ import Link from 'next/link';
 export default function Home() {
   const [participantName, setParticipantName] = useState('jareer');
   const [sessionDuration, setSessionDuration] = useState(30);
+  const [agentName, setAgentName] = useState(''); // optional: LiveKit worker agent name (default PRODUCTION-AGENT)
   const [session, setSession] = useState(null);
   const [room, setRoom] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
@@ -34,6 +35,9 @@ export default function Home() {
         participant_name: participantName,
         session_duration_minutes: String(sessionDuration),
       });
+      if (agentName && agentName.trim()) {
+        params.set('agent_name', agentName.trim());
+      }
       // Use relative URL so request goes through Next.js (avoids CORS)
       const response = await fetch(`/api/sessions/create?${params.toString()}`, {
         method: 'POST',
@@ -329,6 +333,18 @@ export default function Home() {
               onChange={(e) => setSessionDuration(parseInt(e.target.value))}
               min="1"
               max="120"
+              className="w-full p-2 border rounded"
+              disabled={session !== null}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">Worker agent name (optional):</label>
+            <input
+              type="text"
+              value={agentName}
+              onChange={(e) => setAgentName(e.target.value)}
+              placeholder="default: PRODUCTION-AGENT"
               className="w-full p-2 border rounded"
               disabled={session !== null}
             />
